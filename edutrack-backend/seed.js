@@ -7,17 +7,27 @@ async function crearUsuariosIniciales() {
         const passwordProfe = await bcrypt.hash('Profe123*', 10)
         const passwordAlumno = await bcrypt.hash('Alumno123*', 10)
 
-        await pool.query(`
-            INSERT INTO usuarios (nombre, correo, password_hash, rol)
-            VALUES ($1, $2, $3, $4)
-            ON CONFLICT (correo) DO NOTHING
-              `, ['Prof.Maria Jose', 'profesor@edutrack.edu', passwordProfe, 'DOCENTE'])
+    // 2. Insertar Docente (María José)
+    await pool.query(`
+      INSERT INTO usuarios (id, nombre, correo, password_hash, rol)
+      VALUES (1, 'María José Grijalba', 'maria.grijalba@edutrack.edu', $1, 'DOCENTE')
+      ON CONFLICT (id) DO UPDATE SET 
+        nombre = EXCLUDED.nombre, 
+        correo = EXCLUDED.correo, 
+        password_hash = EXCLUDED.password_hash,
+        rol = EXCLUDED.rol
+    `, [passwordProfe])
 
-              await pool.query(`
-                INSERT INTO usuarios (nombre, correo, password_hash, rol)
-                VALUES ($1, $2, $3, $4)
-                ON CONFLICT (correo) DO NOTHING
-               `, ['Carlos Mendoza', 'estudiante@edutrack.edu', passwordAlumno, 'ESTUDIANTE'])
+    // 3. Insertar Estudiante (José Antonio)
+    await pool.query(`
+      INSERT INTO usuarios (id, nombre, correo, password_hash, rol)
+      VALUES (2, 'José Antonio Quintero', 'jose.quintero@edutrack.edu', $1, 'ESTUDIANTE')
+      ON CONFLICT (id) DO UPDATE SET 
+        nombre = EXCLUDED.nombre, 
+        correo = EXCLUDED.correo, 
+        password_hash = EXCLUDED.password_hash,
+        rol = EXCLUDED.rol
+    `, [passwordAlumno])
 
                console.log('✅ ¡Usuarios iniciales creados con contraseñas encriptadas en Neon!')
                process.exit(0) 

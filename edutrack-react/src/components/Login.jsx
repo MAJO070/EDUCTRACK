@@ -26,13 +26,13 @@ function Login({ onIniciarSesion }) {
     }
   }
 
-  // Accesos rápidos de prueba (Demo con usuarios de Neon DB)
+  // Accesos rápidos de prueba (Exclusivo para el equipo EduTrack)
   const accesoRapido = (tipo) => {
     if (tipo === 'profesor') {
-      setCorreo('profesor@edutrack.edu')
+      setCorreo('maria.grijalba@edutrack.edu')
       setPassword('Profe123*')
     } else {
-      setCorreo('estudiante@edutrack.edu')
+      setCorreo('jose.quintero@edutrack.edu')
       setPassword('Alumno123*')
     }
   }
@@ -53,13 +53,13 @@ function Login({ onIniciarSesion }) {
 
       {/* Botones de Acceso Rápido para Pruebas */}
       <div className="caja-demo">
-        <span className="demo-texto">Accesos rápidos de prueba:</span>
+        <span className="demo-texto">Accesos autorizados del equipo:</span>
         <div className="demo-botones">
           <button type="button" onClick={() => accesoRapido('profesor')} className="btn-demo">
-            👨‍🏫 Profesor
+            👩‍🏫 María José (Docente)
           </button>
           <button type="button" onClick={() => accesoRapido('estudiante')} className="btn-demo">
-            👩‍🎓 Estudiante
+            👨‍🎓 José Antonio (Estudiante)
           </button>
         </div>
       </div>

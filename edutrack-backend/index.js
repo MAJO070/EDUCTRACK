@@ -181,36 +181,14 @@ app.put('/api/calificaciones/:id', async (req, res) => {
     }
 })
 
-// 5. AUTH: Registro de Usuario
+// 5. AUTH: Registro de Usuario (Cerrado por seguridad - Solo equipo autorizado)
 app.post('/api/auth/register', async (req, res) => {
-    try {
-        const { nombre, correo, password, rol } = req.body
-
-        if (!nombre || !correo || !password) {
-            return res.status(400).json({ error: 'Nombre, correo y contraseña son obligatorios' })
-        }
-
-        // Encriptar contraseña con bcrypt
-        const passwordHash = await bcrypt.hash(password, 10)
-        const rolUsuario = rol || 'ESTUDIANTE'
-
-        const consulta = `
-            INSERT INTO usuarios (nombre, correo, password_hash, rol)
-            VALUES ($1, $2, $3, $4)
-            RETURNING id, nombre, correo, rol, creado_en
-        `
-        const resultado = await pool.query(consulta, [nombre, correo.toLowerCase().trim(), passwordHash, rolUsuario])
-        res.status(201).json({ mensaje: 'Usuario registrado exitosamente', usuario: resultado.rows[0] })
-    } catch (error) {
-        if (error.code === '23505') {
-            return res.status(400).json({ error: 'El correo electrónico ya está registrado' })
-        }
-        console.error('Error en el registro:', error)
-        res.status(500).json({ error: 'Error del servidor en el registro' })
-    }
+    return res.status(403).json({ 
+        error: 'El registro público está cerrado. Solo María José Grijalba y José Antonio Quintero tienen cuentas autorizadas en el sistema.' 
+    })
 })
 
-// 6. AUTH: Inicio de Sesión (Login) con Verificación de Hash
+// 6. AUTH: Inicio de Sesión (Login) con Verificación de Hash y Acceso Exclusivo
 app.post('/api/auth/login', async (req, res) => {
     try {
         const { correo, password } = req.body
@@ -219,7 +197,19 @@ app.post('/api/auth/login', async (req, res) => {
             return res.status(400).json({ error: 'Debes ingresar correo y contraseña' })
         }
 
-        const resultado = await pool.query('SELECT * FROM usuarios WHERE correo = $1', [correo.toLowerCase().trim()])
+        const correoNormalizado = correo.toLowerCase().trim()
+        const USUARIOS_AUTORIZADOS = [
+            'maria.grijalba@edutrack.edu',
+            'jose.quintero@edutrack.edu'
+        ]
+
+        if (!USUARIOS_AUTORIZADOS.includes(correoNormalizado)) {
+            return res.status(403).json({ 
+                error: 'Acceso restringido: Solo el equipo oficial del proyecto (María José Grijalba y José Antonio Quintero) tiene autorización para ingresar.' 
+            })
+        }
+
+        const resultado = await pool.query('SELECT * FROM usuarios WHERE correo = $1', [correoNormalizado])
 
         if (resultado.rows.length === 0) {
             return res.status(401).json({ error: 'Credenciales incorrectas' })
