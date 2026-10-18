@@ -12,6 +12,8 @@ import InicioEstudiante from './components/InicioEstudiante'
 import Horario from './components/Horario'
 import MiSalon from './components/MiSalon'
 
+const BACKEND_URL = 'https://edutrack-api-f6w2.onrender.com'
+
 function App() {
   // Estados para datos del Backend
   const [cursos, setCursos] = useState([])
@@ -27,21 +29,17 @@ function App() {
 
   // Estado de las notas (con persistencia en localStorage)
   const [talleres, setTalleres] = useState([]) 
-  
-    
 
-  // Cargar datos iniciales desde el servidor Backend
+  // Cargar datos iniciales desde el servidor Backend en la nube (Render)
   useEffect(() => {
-    const backendUrl = `http://${window.location.hostname}:3000`
-
     // 1. Cursos
-    fetch(`${backendUrl}/api/cursos`)
+    fetch(`${BACKEND_URL}/api/cursos`)
       .then(res => res.json())
       .then(data => setCursos(data))
       .catch(err => console.error('Error cargando cursos:', err))
 
     // 2. Estudiantes
-    fetch(`${backendUrl}/api/estudiantes`)
+    fetch(`${BACKEND_URL}/api/estudiantes`)
       .then(res => res.json())
       .then(data => {
         setEstudiantes(data)
@@ -50,32 +48,28 @@ function App() {
       .catch(err => console.error('Error cargando estudiantes:', err))
 
     // 3. Actividades
-    fetch(`${backendUrl}/api/actividades`)
+    fetch(`${BACKEND_URL}/api/actividades`)
       .then(res => res.json())
       .then(data => setActividades(data))
       .catch(err => console.error('Error cargando actividades:', err))
 
-
-     fetch(`${backendUrl}/api/calificaciones`)
-     .then(res => res.json())
-     .then(data => setTalleres(data))
-     .catch(err => console.error('Error cargando calificaciones'))
+    // 4. Calificaciones
+    fetch(`${BACKEND_URL}/api/calificaciones`)
+      .then(res => res.json())
+      .then(data => setTalleres(data))
+      .catch(err => console.error('Error cargando calificaciones:', err))
 
   }, [])
-
-      
 
   // Sincronizar notas con localStorage
   useEffect(() => {
     localStorage.setItem('eductrack_talleres', JSON.stringify(talleres))
   }, [talleres])
 
-  // Lógica de inicio de sesión con Backend PostgreSQL y Bcrypt
+  // Lógica de inicio de sesión con Backend PostgreSQL y Bcrypt en Render
   const iniciarSesion = async (correo, password) => {
-    const backendUrl = `http://${window.location.hostname}:3000`
-
     try {
-      const respuesta = await fetch(`${backendUrl}/api/auth/login`, {
+      const respuesta = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ correo, password })
@@ -95,7 +89,7 @@ function App() {
       }
     } catch (error) {
       console.error('Error al conectar con el servidor:', error)
-      alert('No se pudo conectar con el servidor. Revisa que el backend esté encendido.')
+      alert('No se pudo conectar con el servidor en la nube. Revisa tu conexión.')
     }
   }
 
@@ -105,45 +99,31 @@ function App() {
 
   // Funciones para notas
   const agregarNota = (nuevaNota) => {
-    const backendUrl = `http://${window.location.hostname}:3000`
-
-    fetch(`${backendUrl}/api/calificaciones`, {
+    fetch(`${BACKEND_URL}/api/calificaciones`, {
       method: 'POST',
-      headers:{
+      headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(nuevaNota) 
     })
-    
     .then(res => res.json())
     .then(notaGuardada => {
-
       setTalleres([...talleres, notaGuardada])
-})
-
-    
+    })
     .catch(err => console.error('Error al guardar nota en el servidor', err))
-
-    
   }
 
   const eliminarNota = (idOIndice) => {
-    const backendUrl = `http://${window.location.hostname}:3000`
-
     const notaAEliminar = talleres[idOIndice] || talleres.find(t => t.id === idOIndice)
     const id = notaAEliminar?.id || idOIndice
 
-    fetch(`${backendUrl}/api/calificaciones/${id}`, {
+    fetch(`${BACKEND_URL}/api/calificaciones/${id}`, {
       method: 'DELETE'
     })
-    
     .then(res => res.json())
     .then(() => {
-
       setTalleres(talleres.filter(t => t.id !== id && t !== notaAEliminar))
     })
-    .catch(err => console.error('Error al eliminar nota en el servidor:', err))
-    
   }
 
   // Filtrar aprendices según el curso seleccionado
@@ -178,7 +158,7 @@ function App() {
               {/* VISTA 2: Boletín de Notas */}
               {moduloActivo === 'boletin' && (
                 <div className="seccion-calificaciones">
-                  {usuario.rol === 'PROFESOR' && (
+                  {(usuario.rol === 'DOCENTE' || usuario.rol === 'PROFESOR') && (
                     <FormularioNota onAgregarNota={agregarNota} />
                   )}
                   <main className="panel-principal">
