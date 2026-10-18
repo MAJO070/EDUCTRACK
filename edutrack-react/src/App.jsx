@@ -1,52 +1,213 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import Encabezado from './components/Encabezado'
-import TablaNotas  from './components/TablaNotas' 
+import TablaNotas from './components/TablaNotas'
 import Resumen from './components/Resumen'
 import FormularioNota from './components/FormularioNota'
-
+import Actividades from './components/Actividades'
+import Login from './components/login'
+import Sidebar from './components/Sidebar'
+import Navbar from './components/Navbar'
+import InicioEstudiante from './components/InicioEstudiante'
+import Horario from './components/Horario'
+import MiSalon from './components/MiSalon'
 
 function App() {
+  // Estados para datos del Backend
+  const [cursos, setCursos] = useState([])
+  const [estudiantes, setEstudiantes] = useState([])
+  const [cursoSeleccionado, setCursoSeleccionado] = useState(1)
+  const [estudianteActivo, setEstudianteActivo] = useState(null)
+  const [actividades, setActividades] = useState([])
+  const [moduloActivo, setModuloActivo] = useState('inicio')
+  const [modoOscuro, setModoOscuro] = useState(true)
+
+  // Estado del usuario autenticado (null = no ha iniciado sesión)
+  const [usuario, setUsuario] = useState(null)
+
+  // Estado de las notas (con persistencia en localStorage)
+  const [talleres, setTalleres] = useState([]) 
   
-  const [talleres, setTalleres] = useState(() => {
-    const guardados = localStorage.getItem('eductrack_talleres')
-    if (guardados) {
-      return JSON.parse(guardados)
+    
+
+  // Cargar datos iniciales desde el servidor Backend
+  useEffect(() => {
+    const backendUrl = `http://${window.location.hostname}:3000`
+
+    // 1. Cursos
+    fetch(`${backendUrl}/api/cursos`)
+      .then(res => res.json())
+      .then(data => setCursos(data))
+      .catch(err => console.error('Error cargando cursos:', err))
+
+    // 2. Estudiantes
+    fetch(`${backendUrl}/api/estudiantes`)
+      .then(res => res.json())
+      .then(data => {
+        setEstudiantes(data)
+        if (data.length > 0) setEstudianteActivo(data[0])
+      })
+      .catch(err => console.error('Error cargando estudiantes:', err))
+
+    // 3. Actividades
+    fetch(`${backendUrl}/api/actividades`)
+      .then(res => res.json())
+      .then(data => setActividades(data))
+      .catch(err => console.error('Error cargando actividades:', err))
+
+
+     fetch(`${backendUrl}/api/calificaciones`)
+     .then(res => res.json())
+     .then(data => setTalleres(data))
+     .catch(err => console.error('Error cargando calificaciones'))
+
+  }, [])
+
+      
+
+  // Sincronizar notas con localStorage
+  useEffect(() => {
+    localStorage.setItem('eductrack_talleres', JSON.stringify(talleres))
+  }, [talleres])
+
+  // Lógica de inicio de sesión con Backend PostgreSQL y Bcrypt
+  const iniciarSesion = async (correo, password) => {
+    const backendUrl = `http://${window.location.hostname}:3000`
+
+    try {
+      const respuesta = await fetch(`${backendUrl}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ correo, password })
+      })
+
+      const datos = await respuesta.json()
+
+      if (!respuesta.ok) {
+        alert(datos.error || 'Credenciales incorrectas')
+        return
+      }
+
+      // Guardar sesión del usuario autenticado
+      setUsuario(datos.usuario)
+      if (datos.token) {
+        localStorage.setItem('edutrack_token', datos.token)
+      }
+    } catch (error) {
+      console.error('Error al conectar con el servidor:', error)
+      alert('No se pudo conectar con el servidor. Revisa que el backend esté encendido.')
     }
-  
-  return [
-    { nombre: 'Taller 1: Variables y Funciones', nota: 4.5 },
-    { nombre: 'Taller 2: Estructuras de control', nota: 3.8},
-    { nombre: 'Taller 3: Arreglos y Objetos', nota: 5.0},
-  ]
+  }
+
+  const cerrarSesion = () => {
+    setUsuario(null)
+  }
+
+  // Funciones para notas
+  const agregarNota = (nuevaNota) => {
+    const backendUrl = `http://${window.location.hostname}:3000`
+
+    fetch(`${backendUrl}/api/calificaciones`, {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(nuevaNota) 
+    })
+    
+    .then(res => res.json())
+    .then(notaGuardada => {
+
+      setTalleres([...talleres, notaGuardada])
 })
 
-useEffect(() => {
-  localStorage.setItem('eductrack_talleres', JSON.stringify(talleres))
-  }, [talleres])
-  
+    
+    .catch(err => console.error('Error al guardar nota en el servidor', err))
 
-  const agregarNota = (nuevaNota) => {
-    setTalleres([...talleres,nuevaNota])
-    }
+    
+  }
 
-    const eliminarNota = (indiceAborrar) => {
-      const nuevasNotas = talleres.filter((_,index) => index !== indiceAborrar)
-      setTalleres(nuevasNotas)
-    }
-  
+  const eliminarNota = (idOIndice) => {
+    const backendUrl = `http://${window.location.hostname}:3000`
+
+    const notaAEliminar = talleres[idOIndice] || talleres.find(t => t.id === idOIndice)
+    const id = notaAEliminar?.id || idOIndice
+
+    fetch(`${backendUrl}/api/calificaciones/${id}`, {
+      method: 'DELETE'
+    })
+    
+    .then(res => res.json())
+    .then(() => {
+
+      setTalleres(talleres.filter(t => t.id !== id && t !== notaAEliminar))
+    })
+    .catch(err => console.error('Error al eliminar nota en el servidor:', err))
+    
+  }
+
+  // Filtrar aprendices según el curso seleccionado
+  const estudiantesFiltrados = estudiantes.filter(e => e.cursoId === Number(cursoSeleccionado))
+
   return (
-    <div className='contenedor'>
-      <Encabezado profesor="Maria Jose" materia="Logica y algoritmos" />
+    <div className={`contenedor-app ${modoOscuro ? 'modo-oscuro' : 'modo-claro'}`}>
+      {!usuario ? (
+        // Pantalla de Login si no hay sesión
+        <Login onIniciarSesion={iniciarSesion} />
+      ) : (
+        // Layout de Dashboard completo (Sidebar + Navbar + Módulos)
+        <div className="layout-dashboard">
+          {/* Barra Lateral izquierda */}
+          <Sidebar moduloActivo={moduloActivo} setModuloActivo={setModuloActivo} />
 
-      <FormularioNota onAgregarNota={agregarNota} />
+          {/* Área de Contenido a la derecha */}
+          <div className="area-principal">
+            {/* Barra superior con correo, avatar y botón salir */}
+            <Navbar
+             usuario={usuario}
+             onCerrarSesion={cerrarSesion}
+             modoOscuro={modoOscuro}
+             setModoOscuro={setModoOscuro}
+             />
+            <div className="contenido-modulo">
+              {/* VISTA 1: Inicio (Banner azul de bienvenida y accesos rápidos) */}
+              {moduloActivo === 'inicio' && (
+                <InicioEstudiante usuario={usuario} setModuloActivo={setModuloActivo} />
+              )}
 
-      <main className="panel-principal">
-        <Resumen notas={talleres} />
-        <TablaNotas notas={talleres} onEliminarNota={eliminarNota} />
-      </main>
+              {/* VISTA 2: Boletín de Notas */}
+              {moduloActivo === 'boletin' && (
+                <div className="seccion-calificaciones">
+                  {usuario.rol === 'PROFESOR' && (
+                    <FormularioNota onAgregarNota={agregarNota} />
+                  )}
+                  <main className="panel-principal">
+                    <Resumen notas={talleres} />
+                    <TablaNotas notas={talleres} onEliminarNota={eliminarNota} />
+                  </main>
+                </div>
+              )}
+
+              {/* VISTA 3: Mi Salón y Compañeros (Colegio Grado 10°A) */}
+              {moduloActivo === 'salon' && (
+                <MiSalon />
+              )}
+
+              {/* VISTA 4: Evidencias y Actividades */}
+              {moduloActivo === 'evidencias' && (
+                <Actividades lista={actividades} />
+              )}
+
+              {/* VISTA 5: Horario Escolar */}
+              {moduloActivo === 'horario' && (
+                <Horario />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
-}
 
-export default App 
+}
+export default App

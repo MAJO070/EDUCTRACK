@@ -1,143 +1,1592 @@
-.contenedor {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: sans-serif;
+/* ========================================================
+   EDUTRACK - HOJA DE ESTILOS PRINCIPAL (SISTEMA COMPLETO)
+   ======================================================== */
+
+* {
+  box-sizing: border-box;
 }
 
-header {
-  border-bottom: 2px solid #2563eb;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-}
-
-header h1 {
-  color: #1e3a8a;
+/* 1. CONTENEDOR RAÍZ */
+.contenedor-app {
+  width: 100vw;
+  min-height: 100vh;
   margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.tarjeta {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-  margin-top: 20px;
-}
-
-.tabla-notas {
-  width: 100px;
-  border-collapse:collapse;
-  margin-top: 15px;
-}
-
-.tabla-notas th,
-.tabla-notas td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.tabla-notas th {
-  background-color: #f1f5f9;
-  color: #1e3a8a;
-  font-weight: 600;
-}
-
-.panel-principal {
+/* ========================================================
+   PANTALLA DE LOGIN (CON ORBES NEÓN Y EDUTRACK FLOTANDO)
+   ======================================================== */
+.escena-login {
+  position: relative;
   display: flex;
-  gap: 20x;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #050811;
+  background-image: 
+    radial-gradient(circle at 15% 30%, rgba(236, 72, 153, 0.35) 0%, transparent 45%),
+    radial-gradient(circle at 85% 65%, rgba(14, 165, 233, 0.35) 0%, transparent 45%),
+    radial-gradient(circle at 50% 10%, rgba(99, 102, 241, 0.2) 0%, transparent 50%);
+  padding: 20px;
+  overflow: hidden;
 }
 
-.tarjeta-resumen {
-  min-width: 250px;
-  flex: 1;
+/* Marca de agua gigante de neón flotando detrás del login */
+.marca-agua-neon {
+  position: absolute;
+  font-size: clamp(4rem, 13vw, 11rem);
+  font-weight: 900;
+  letter-spacing: 12px;
+  color: rgba(255, 255, 255, 0.03);
+  text-shadow: 
+    0 0 40px rgba(56, 189, 248, 0.15),
+    0 0 80px rgba(236, 72, 153, 0.1);
+  z-index: 0;
+  user-select: none;
+  pointer-events: none;
+  animation: flotar 6s ease-in-out infinite alternate;
 }
 
-.tarjeta-resumen h2 {
-  color: #1e3a8a;
-  margin-top: 0;
+@keyframes flotar {
+  0% { transform: translateY(-10px) scale(0.98); }
+  100% { transform: translateY(10px) scale(1.02); }
 }
 
-.promedio.texto {
-  font-size: 1.2rem;
-  margin: 10px 0;
-}
-
-.estado {
-  font-weight: bold;
-  padding: 8px;
-  border-radius: 6px;
+/* Tarjeta de Cristal Ahumado en el Login */
+.contenedor-login {
+  position: relative;
+  z-index: 1;
+  max-width: 440px;
+  width: 100%;
+  padding: 40px 32px;
+  background: rgba(13, 18, 36, 0.75);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 30px 60px -15px rgba(0, 0, 0, 0.8),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  color: #ffffff;
   text-align: center;
 }
 
-.estado-aprobado {
-  background-color: #fee2e2;
-  color: #b91c1c;
+.login-logo-contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
-.tarjeta-formulario {
-  margin-bottom: 25px;
+.logo-login {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border: 2px solid rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+  transition: all 0.3s ease;
 }
 
-.tarjeta-formulario h2 {
-  color: #1e3a8a;
-  margin-top: 0;
+.logo-login:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 35px rgba(236, 72, 153, 0.6);
+  border-color: rgba(236, 72, 153, 0.8);
+}
+
+.badge-sistema {
+  font-size: 0.75rem;
+  background-color: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.titulo-login {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.5px;
+}
+
+.subtitulo-login {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin: 0 0 20px 0;
+}
+
+.caja-demo {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.demo-texto {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.demo-botones {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-demo {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-demo:hover {
+  background: #38bdf8;
+  color: #050811;
+  font-weight: 700;
+}
+
+.formulario-login {
+  text-align: left;
 }
 
 .campo {
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
-.campo-label {
+.campo label {
+  color: #e2e8f0;
+  font-size: 0.88rem;
   font-weight: 600;
-  margin-bottom: 5px;
-  color: #334155;
+  margin-bottom: 6px;
 }
 
-.campo-input {
-  padding: 10px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-size: 1rem;
+.campo input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
 }
 
-.campo-input:focus {
+.campo input::placeholder {
+  color: #64748b;
+}
+
+.campo input:focus {
   outline: none;
-  border-color: #2563eb;
+  background: rgba(15, 23, 42, 0.9);
+  border-color: #38bdf8;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.5);
 }
 
-.btn-guardar {
-  background-color: #2563eb;
-  color: white;
-  padding: 10px 20px;
+.etiqueta-con-enlace {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.enlace-olvido {
+  color: #38bdf8;
+  font-size: 0.8rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.enlace-olvido:hover {
+  text-decoration: underline;
+}
+
+.input-password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-password-wrapper input {
+  padding-right: 42px;
+}
+
+.btn-ver-password {
+  position: absolute;
+  right: 12px;
+  background: transparent;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s;
+  font-size: 1.1rem;
 }
 
-.btn-guardar:hover {
-  background-color: #1d4ed8;
+.fila-recordar {
+  margin: 12px 0 18px 0;
+}
+
+.checkbox-recordar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.btn-login-principal {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+  cursor: pointer;
+  box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.5);
+  transition: all 0.3s ease;
+}
+
+.btn-login-principal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px -5px rgba(139, 92, 246, 0.6);
+  filter: brightness(1.1);
+}
+
+.login-footer {
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+.login-footer a {
+  color: #38bdf8;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.seguridad-texto {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+
+/* ========================================================
+   DASHBOARD COMPLETO (PANTALLA COMPLETA 100% ANCHO Y ALTO)
+   ======================================================== */
+
+.layout-dashboard {
+  display: flex;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+/* 1. SIDEBAR (PEGADO A LA IZQUIERDA) */
+.sidebar {
+  width: 260px;
+  min-height: 100vh;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  border-right: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px 24px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+}
+
+.logo-e-mini {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.2rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-texto {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+/* 2. ÁREA PRINCIPAL (EXPANDIDA AL 100% HACIA LA DERECHA) */
+.area-principal {
+  flex: 1;
+  width: calc(100vw - 260px);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-superior {
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 35px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.navbar-usuario-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navbar-correo {
+  font-size: 0.88rem;
+}
+
+.navbar-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.btn-salir {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-tema {
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.contenido-modulo {
+  padding: 35px 45px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Banner de Bienvenida Azul/Morado */
+.banner-bienvenida {
+  background: linear-gradient(135deg, #3730a3 0%, #4f46e5 50%, #6366f1 100%);
+  color: #ffffff;
+  padding: 35px 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.3);
+  margin-bottom: 25px;
+}
+
+.texto-bienvenido {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  margin: 0 0 6px 0;
+}
+
+.nombre-usuario-banner {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.5px;
+}
+
+.badge-rol {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* Tarjeta Identidad */
+.tarjeta-identidad {
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 25px;
+}
+
+.titulo-seccion-id {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  margin: 0 0 16px 0;
+  font-weight: 700;
+}
+
+.grid-identidad {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.etiqueta-id {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.valor-id {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 4px 0 0 0;
+}
+
+/* Accesos Rápidos */
+.grid-accesos-rapidos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.tarjeta-acceso {
+  border-radius: 14px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.tarjeta-acceso:hover {
+  transform: translateY(-3px);
+}
+
+.icono-acceso {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.tarjeta-acceso h4 {
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+}
+
+.tarjeta-acceso p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Tarjetas Generales y Tablas */
+.tarjeta {
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.tabla-notas {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.tabla-notas th,
+.tabla-notas td {
+  padding: 12px 16px;
+  text-align: left;
 }
 
 .btn-eliminar {
-  background-color: #fee2e2;
+  background-color: rgba(239, 68, 68, 0.15);
   color: #ef4444;
-  border: 1px solid #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: 4px;
   cursor: pointer;
   padding: 4px 10px;
   font-weight: bold;
-  transition: all 0.2s;
 }
 
 .btn-eliminar:hover {
   background-color: #ef4444;
   color: white;
+}
+
+.grid-estudiantes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 15px;
+}
+
+.tarjeta-estudiante {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.avatar {
+  font-size: 1.8rem;
+}
+
+.correo-estudiante {
+  margin: 3px 0 0 0;
+  font-size: 0.85rem;
+}
+
+/* Actividades */
+.lista-actividades {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.tarjeta-actividad {
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.encabezado-actividad {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge-estado {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.badge-estado.calificado { background-color: #dcfce7; color: #166534; }
+.badge-estado.entregado { background-color: #e0f2fe; color: #075985; }
+.badge-estado.pendiente { background-color: #fef3c7; color: #92400e; }
+
+.caja-comentario {
+  margin-top: 10px;
+  padding: 10px;
+  border-left: 4px solid #38bdf8;
+  border-radius: 4px;
+}
+
+.texto-comentario {
+  margin: 4px 0 0 0;
+  font-style: italic;
+}
+
+
+/* ========================================================
+   TEMAS: MODO OSCURO NEÓN vs MODO CLARO
+   ======================================================== */
+
+/* --- TEMA OSCURO (Por defecto) --- */
+.modo-oscuro {
+  background-color: #0b0f19;
+  color: #f8fafc;
+}
+
+.modo-oscuro .sidebar {
+  background-color: #0f172a;
+  border-right-color: rgba(255, 255, 255, 0.08);
+}
+
+.modo-oscuro .logo-texto {
+  color: #ffffff;
+}
+
+.modo-oscuro .sidebar-item {
+  color: #94a3b8;
+}
+
+.modo-oscuro .sidebar-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #38bdf8;
+}
+
+.modo-oscuro .sidebar-item.activo {
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+}
+
+.modo-oscuro .area-principal {
+  background-color: #0b0f19;
+}
+
+.modo-oscuro .navbar-superior {
+  background-color: #0f172a;
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.modo-oscuro .navbar-correo {
+  color: #94a3b8;
+}
+
+.modo-oscuro .navbar-avatar {
+  background-color: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.modo-oscuro .btn-salir {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.modo-oscuro .btn-salir:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.modo-oscuro .btn-tema {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.modo-oscuro .btn-tema:hover {
+  background: #38bdf8;
+  color: #050811;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+}
+
+.modo-oscuro .tarjeta,
+.modo-oscuro .tarjeta-identidad,
+.modo-oscuro .tarjeta-acceso,
+.modo-oscuro .tarjeta-actividad,
+.modo-oscuro .tarjeta-estudiante {
+  background-color: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+}
+
+.modo-oscuro .tarjeta-acceso:hover,
+.modo-oscuro .tarjeta-estudiante:hover {
+  border-color: #38bdf8;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+}
+
+.modo-oscuro .titulo-seccion-id,
+.modo-oscuro .etiqueta-id,
+.modo-oscuro .tarjeta-acceso p,
+.modo-oscuro .correo-estudiante {
+  color: #94a3b8;
+}
+
+.modo-oscuro .valor-id {
+  color: #38bdf8;
+}
+
+.modo-oscuro .tabla-notas th {
+  background-color: #1e293b;
+  color: #38bdf8;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modo-oscuro .tabla-notas td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.modo-oscuro .caja-comentario {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+
+/* --- TEMA CLARO --- */
+.modo-claro {
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+.modo-claro .sidebar {
+  background-color: #ffffff;
+  border-right-color: #e2e8f0;
+}
+
+.modo-claro .logo-texto {
+  color: #0f172a;
+}
+
+.modo-claro .sidebar-item {
+  color: #64748b;
+}
+
+.modo-claro .sidebar-item:hover {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
+.modo-claro .sidebar-item.activo {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.modo-claro .area-principal {
+  background-color: #f8fafc;
+}
+
+.modo-claro .navbar-superior {
+  background-color: #ffffff;
+  border-bottom-color: #e2e8f0;
+}
+
+.modo-claro .navbar-correo {
+  color: #64748b;
+}
+
+.modo-claro .navbar-avatar {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.modo-claro .btn-salir {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+}
+
+.modo-claro .btn-tema {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+}
+
+.modo-claro .tarjeta,
+.modo-claro .tarjeta-identidad,
+.modo-claro .tarjeta-acceso,
+.modo-claro .tarjeta-actividad,
+.modo-claro .tarjeta-estudiante {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  color: #1e293b;
+}
+
+.modo-claro .tarjeta-acceso:hover,
+.modo-claro .tarjeta-estudiante:hover {
+  border-color: #93c5fd;
+  box-shadow: 0 8px 16px -4px rgba(37, 99, 235, 0.1);
+}
+
+.modo-claro .titulo-seccion-id,
+.modo-claro .etiqueta-id,
+.modo-claro .tarjeta-acceso p,
+.modo-claro .correo-estudiante {
+  color: #64748b;
+}
+
+.modo-claro .valor-id {
+  color: #1e3a8a;
+}
+
+.modo-claro .tabla-notas th {
+  background-color: #f1f5f9;
+  color: #1e3a8a;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modo-claro .tabla-notas td {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modo-claro .caja-comentario {
+  background-color: #f8fafc;
+}
+
+.dasboard-escolar,
+.dasboard-escolar {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.saludo-escolar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 20px;
+}
+
+.saludo-escolar h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.subtitulo-escolar {
+  color: #94a3b8;
+  margin: 6px 0 0 0;
+  font-size: 0.95rem;
+}
+
+.badge-periodo {
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.grid-metricas-escolares {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap:20px
+}
+
+.tarjeta-metrica {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px;
+  border-radius: 16px;
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+.icono-metrica {
+  font-size: 2.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border-radius: 14px;
+}
+
+.label-metrica {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.valor-metrica {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin: 4px 0 0 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.estado-ok {
+  font-size: 0.75rem;
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.estado-alerta {
+  font-size: 0.75rem;
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.seccion-materias {
+  margin-top: 10px;
+}
+
+.barra-titulo-materias h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.barra-titulo-materias p {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin: 4px 0 20px;
+}
+
+.grid-materias {
+  display: grid;
+  grid-template-columns: repeat(autofill, minmax(210px, 1fr));
+  gap: 20px;
+}
+
+.tarjeta-materia {
+  padding: 22px;
+  border-radius: 18px;
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta-materia:hover {
+  transform: translate(-5px);
+  border-color: #38bdf8;
+  box-shadow: 0 12px 25px -5px rgba(56, 189, 248, 0.2);
+}
+
+.icono-materia {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+}
+
+.tarjeta-materia h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+}
+
+.docente-materia {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin: 0 0 15px 0;
+}
+
+.ver-materia-link {
+  color: #94a3b8;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-top: auto;
+}
+
+.mano.saludo {
+  display: inline-block;
+  animation: saludarMano 2.2s infinite;
+  transform-origin: 70% 70%;
+  cursor: default;
+}
+
+@keyframes saludarMano {
+  0% { transform: rotate(0deg); }
+  10% {transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(14deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+  60% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+
+/* Animación de la mano saludando */
+.mano-saluda,
+.mano-saludo {
+  display: inline-block;
+  animation: saludarMano 2s ease-in-out infinite;
+  transform-origin: 75% 75%;
+}
+
+@keyframes saludarMano {
+  0% { transform: rotate(0deg); }
+  15% { transform: rotate(20deg); }
+  30% { transform: rotate(-12deg); }
+  45% { transform: rotate(20deg); }
+  60% { transform: rotate(-8deg); }
+  75% { transform: rotate(12deg); }
+  100% { transform: rotate(0deg); }
+}
+
+
+/* ========================================================
+   ESTILOS HORARIO ESCOLAR (POR HORAS, DÍAS Y GRADOS)
+   ======================================================== */
+
+.seccion-horario-escolar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.encabezado-horario {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 20px;
+}
+
+.encabezado-horario h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.subtitulo-horario {
+  color: #94a3b8;
+  margin: 4px 0 0 0;
+  font-size: 0.92rem;
+}
+
+.selector-grado-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.select-grado-custom {
+  background: rgba(17, 24, 39, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.select-grado-custom:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+/* Barra de Días de la Semana */
+.barra-dias-semana {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-dia-semana {
+  padding: 10px 22px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(17, 24, 39, 0.6);
+  color: #94a3b8;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-dia-semana:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-dia-semana.activo {
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35);
+}
+
+/* Bloques de Horario */
+.lista-bloques-clase {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tarjeta-bloque-clase {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-radius: 16px;
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+  gap: 20px;
+}
+
+.tarjeta-bloque-clase:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+}
+
+.tarjeta-bloque-clase.bloque-recreo {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px dashed rgba(245, 158, 11, 0.4);
+}
+
+.columna-hora {
+  min-width: 140px;
+}
+
+.hora-texto {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 0.3px;
+}
+
+.bloque-recreo .hora-texto {
+  color: #f59e0b;
+}
+
+.columna-info-clase {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.indicador-color {
+  width: 6px;
+  height: 44px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.nombre-materia-horario {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0 0 4px 0;
+  color: #ffffff;
+}
+
+.docente-salon {
+  color: #94a3b8;
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.badge-tipo-clase {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1px solid;
+}
+
+/* ========================================================
+   ESTILOS SUBIDA DE EVIDENCIAS Y TAREAS (PDF, VIDEO, IMAGEN)
+   ======================================================== */
+
+.seccion-evidencias-escolar {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.encabezado-evidencias h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.5px;
+}
+
+.encabezado-evidencias p {
+  color: #94a3b8;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Tarjeta de Cada Tarea */
+.tarjeta-actividad-entrega {
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 26px;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+}
+
+.tarjeta-actividad-entrega:hover {
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.materia-tag {
+  font-size: 0.75rem;
+  color: #38bdf8;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.titulo-actividad {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 4px 0 0 0;
+  color: #ffffff;
+}
+
+.fecha-limite {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #94a3b8;
+}
+
+/* Zona de Subida de Archivos */
+.zona-subida-archivo {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px dashed rgba(56, 189, 248, 0.3);
+  border-radius: 14px;
+  padding: 18px;
+  margin-top: 5px;
+}
+
+.label-adjuntar {
+  display: block;
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  margin-bottom: 12px;
+}
+
+.fila-inputs-archivo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* Input de Archivo Elegante */
+.input-file-custom {
+  color: #94a3b8;
+  font-size: 0.88rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  flex: 1;
+}
+
+.input-file-custom::file-selector-button {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: all 0.2s;
+}
+
+.input-file-custom::file-selector-button:hover {
+  background: #1d4ed8;
+}
+
+/* Botón de Enviar Evidencia */
+.btn-enviar-evidencia {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-enviar-evidencia:disabled {
+  background: #334155;
+  color: #64748b;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-enviar-evidencia:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+}
+
+.archivo-listo {
+  margin: 10px 0 0 0;
+  font-size: 0.85rem;
+  color: #38bdf8;
+}
+
+/* Mensaje de Confirmación Verde */
+.confirmacion-entrega {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 14px 18px;
+  border-radius: 10px;
+}
+
+.texto-confirmado {
+  color: #10b981;
+  font-size: 1rem;
+  margin: 0 0 6px 0;
+}
+
+.detalle-archivo {
+  color: #f8fafc;
+  font-size: 0.9rem;
+  margin: 0 0 4px 0;
+}
+
+.confirmacion-entrega small {
+  color: #6ee7b7;
+  font-size: 0.78rem;
+}
+
+
+/* ========================================================
+   ESTILOS MI SALÓN Y COMPAÑEROS (DIRECTORIO ESCOLAR)
+   ======================================================== */
+
+.seccion-salon-escolar {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* 1. Tarjeta de Información de Grado */
+.tarjeta-info-salon {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.8) 0%, rgba(37, 99, 235, 0.5) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 20px;
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.25);
+}
+
+.badge-salon-mini {
+  font-size: 0.78rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.bloque-grado-info h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.ubicacion-aula {
+  color: #bfdbfe;
+  margin: 6px 0 0 0;
+  font-size: 0.95rem;
+}
+
+.datos-directiva-salon {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.label-directiva {
+  font-size: 0.8rem;
+  color: #93c5fd;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: block;
+}
+
+.valor-directiva {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 4px 0 0 0;
+}
+
+/* 2. Barra de Búsqueda */
+.barra-busqueda-salon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.barra-busqueda-salon h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0;
+  color: #ffffff;
+}
+
+.subtitulo-lista-alumnos {
+  color: #94a3b8;
+  margin: 4px 0 0 0;
+  font-size: 0.88rem;
+}
+
+.input-buscar-companero {
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  outline: none;
+  width: 280px;
+  transition: all 0.2s;
+}
+
+.input-buscar-companero:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+/* 3. Cuadrícula de Compañeros */
+.grid-companeros-salon {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.tarjeta-companero {
+  position: relative;
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  backdrop-filter: blur(10px);
+  transition: all 0.25s ease;
+}
+
+.tarjeta-companero:hover {
+  transform: translateY(-3px);
+  border-color: #38bdf8;
+  box-shadow: 0 10px 20px -5px rgba(56, 189, 248, 0.15);
+}
+
+.numero-lista {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.avatar-companero {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(6, 182, 212, 0.3);
+}
+
+.info-texto-companero {
+  flex: 1;
+}
+
+.nombre-companero {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 3px 0;
+}
+
+.correo-companero {
+  color: #94a3b8;
+  font-size: 0.82rem;
+  margin: 0 0 8px 0;
+}
+
+.badge-rol-escolar {
+  font-size: 0.72rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: #cbd5e1;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  display: inline-block;
 }

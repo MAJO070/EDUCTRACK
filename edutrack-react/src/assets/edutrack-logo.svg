@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="80" height="80">
+  <defs>
+    <!-- Degradado principal azul tecnológico -->
+    <linearGradient id="azulEdu" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" />
+      <stop offset="50%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    
+    <!-- Degradado para la barra central de seguimiento -->
+    <linearGradient id="cyanTrack" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+
+    <!-- Sombra suave para darle volumen de icono de app -->
+    <filter id="sombraLogo" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#1e3a8a" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Contenedor cuadrado redondeado (Estilo icono de App moderna) -->
+  <rect x="10" y="10" width="100" height="100" rx="26" fill="url(#azulEdu)" filter="url(#sombraLogo)"/>
+
+  <!-- Letra "E" estilizada (EduTrack) -->
+  <!-- Columna vertical de la E -->
+  <rect x="32" y="30" width="14" height="60" rx="7" fill="#ffffff" />
+
+  <!-- Barra Superior de la E: Con corte diagonal estilo birrete/educación -->
+  <path d="M 32 37 C 32 33, 36 30, 40 30 L 78 30 C 82 30, 85 34, 83 38 L 81 44 C 80 47, 77 49, 73 49 L 32 49 Z" fill="#ffffff" />
+
+  <!-- Barra Central de la E: Simboliza el "Track" / Seguimiento (con color cyan y punto indicador) -->
+  <rect x="32" y="52" width="36" height="13" rx="6.5" fill="url(#cyanTrack)" />
+  <circle cx="76" cy="58.5" r="5" fill="#38bdf8" />
+
+  <!-- Barra Inferior de la E: Base sólida de crecimiento -->
+  <path d="M 32 68 L 74 68 C 78 68, 82 71, 82 75 C 82 79, 78 83, 74 83 L 39 83 C 35 83, 32 80, 32 76 Z" fill="#ffffff" />
+</svg>
