@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
 const app = express()
-const PUERTO = 3000
+const PUERTO = process.env.PORT || 3000
 
 app.use(cors())
 app.use(express.json())
