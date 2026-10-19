@@ -1590,3 +1590,142 @@
   font-weight: 600;
   display: inline-block;
 }
+
+/* ========================================================
+   RESPONSIVE DESIGN PARA MÓVILES (SMARTPHONES Y TABLETS)
+   ======================================================== */
+@media (max-width: 768px) {
+  /* 1. Layout general en columna vertical */
+  .layout-dashboard {
+    flex-direction: column !important;
+    width: 100vw !important;
+    min-height: 100vh !important;
+    overflow-x: hidden !important;
+  }
+
+  /* 2. Barra lateral convertida en cabecera táctil */
+  .sidebar {
+    width: 100vw !important;
+    min-height: auto !important;
+    padding: 12px 14px 6px 14px !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .sidebar-logo {
+    padding: 0 0 8px 0 !important;
+    margin-bottom: 6px !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Menú de pestañas con desplazamiento horizontal suave (Pills) */
+  .sidebar-menu {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    padding-bottom: 6px !important;
+    gap: 8px !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+  .sidebar-menu::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .sidebar-item {
+    white-space: nowrap !important;
+    padding: 8px 14px !important;
+    font-size: 0.85rem !important;
+    border-radius: 20px !important;
+    flex-shrink: 0 !important;
+    width: auto !important;
+  }
+
+  /* 3. Área Principal ocupa todo el ancho */
+  .area-principal {
+    width: 100vw !important;
+    flex: 1 !important;
+    min-height: auto !important;
+  }
+
+  /* 4. Navbar superior móvil */
+  .navbar-superior {
+    height: auto !important;
+    padding: 10px 14px !important;
+    justify-content: space-between !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .navbar-usuario-info {
+    width: 100% !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+  }
+
+  .navbar-correo {
+    font-size: 0.78rem !important;
+    max-width: 130px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .btn-tema {
+    padding: 4px 8px !important;
+    font-size: 0.75rem !important;
+  }
+
+  .btn-salir {
+    padding: 5px 12px !important;
+    font-size: 0.78rem !important;
+  }
+
+  /* 5. Contenido de los módulos */
+  .contenido-modulo {
+    padding: 14px 12px 30px 12px !important;
+  }
+
+  /* Tarjeta de bienvenida escolar */
+  .saludo-escolar {
+    padding: 18px 16px !important;
+    border-radius: 18px !important;
+  }
+
+  .saludo-escolar h2 {
+    font-size: 1.3rem !important;
+  }
+
+  .subtitulo-escolar {
+    font-size: 0.82rem !important;
+  }
+
+  /* Grillas de métricas y asignaturas a 1 columna */
+  .grid-metricas-escolares {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .grid-materias {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  /* Secciones de Calificaciones */
+  .seccion-calificaciones {
+    flex-direction: column !important;
+  }
+
+  .formulario-nota, .panel-principal {
+    width: 100% !important;
+  }
+
+  .tabla-notas-contenedor {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Login en pantallas pequeñas */
+  .contenedor-login {
+    padding: 28px 18px !important;
+    border-radius: 22px !important;
+  }
+}
